@@ -21,6 +21,7 @@ public class CubeInputController : MonoBehaviour
         cubeDirection = Vector3.left;
 
     }
+    //TODO: fixed update
     void Update()
     {
         if (!gameManager.isGamePause)
@@ -30,13 +31,18 @@ public class CubeInputController : MonoBehaviour
         }
 
     }
+
     private void HandleCubeInput()
     {
         if (Input.GetMouseButtonDown(0))
         {
             ChangeCubeDirection();
             cubeMovementController.StopCube();
-            cubeSpawnController.SpawnCube();
+            if (!gameManager.isGamePause)
+            {
+                cubeSpawnController.SpawnCube();
+                
+            }
 
             Transform lastChild = transform.GetChild(transform.childCount - 1);
             cubeMovementController = lastChild.GetComponent<CubeMovementController>();
@@ -49,10 +55,12 @@ public class CubeInputController : MonoBehaviour
 
         if (cubeDirection.x == -1 || cubeDirection.x == 1)
         {
+            Debug.Log("Cube Direction x");
             cubeDirection = Vector3.forward;
         }
         else
         {
+            Debug.Log("Cube Direction z");
             cubeDirection = Vector3.left;
         }
     }
